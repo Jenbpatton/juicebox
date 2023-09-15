@@ -46,7 +46,7 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
     postData.authorId = req.user.id;
     postData.title = title;
     postData.content = content;
-
+//create the post, and including tags thebn pass the tags array to the createPost function
     const post = await createPost({
       ...postData,
       tags
