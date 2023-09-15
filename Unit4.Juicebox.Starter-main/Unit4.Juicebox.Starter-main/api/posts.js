@@ -47,7 +47,10 @@ postsRouter.post('/', requireUser, async (req, res, next) => {
     postData.title = title;
     postData.content = content;
 
-    const post = await createPost(postData);
+    const post = await createPost({
+      ...postData,
+      tags
+    });
 
     if (post) {
       res.send(post);
