@@ -101,7 +101,27 @@ postsRouter.patch('/:postId', requireUser, async (req, res, next) => {
 });
 
 postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
-  res.send({ message: 'under construction' });
+  const postId = req.params.postId;
+
+  try{
+    //check if the user is the author of the post or has permission
+    const post = await getPostById(postId);
+    if (!post) {
+     //404 Not found - status code when client requests a source that does not exist 
+      return res.status(404).json({message: 'Post not found'});
+    }
+    if(post.authorId !== req.user.id) {
+      //403 forbidden- status code when client request a source that does not have permission to access
+      return res.status(403).json({message: 'Permission denied'});
+    }
+    //Delete the post
+    await deletePost(postId);
+
+    res.json({message: 'Post deleted successfully'});
+  } catch (error) {
+    next(error);
+  }
 });
+
 
 module.exports = postsRouter;
