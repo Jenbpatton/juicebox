@@ -75,12 +75,12 @@ async function getUserById(userId) {
       WHERE id=${ userId }
     `);
 
-    if (!user) {
-      throw {
-        name: "UserNotFoundError",
-        message: "A user with that id does not exist"
-      }
-    }
+    //if (!user) {
+      //throw {
+        //name: "UserNotFoundError",
+        //message: "A user with that id does not exist"
+      //}
+    //}
 
     user.posts = await getPostsByUser(userId);
 
